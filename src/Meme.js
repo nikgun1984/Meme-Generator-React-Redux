@@ -1,22 +1,15 @@
-import { useSelector, useDispatch } from "react-redux";
-import MemeForm from "./MemeForm";
+import "./Meme.css";
 
-const Meme = () => {
-	// const dispatch = useDispatch();
-	// const link = useSelector((store) => store.link);
-	// const topText = useSelector((store) => store.topText);
-	// const bottomText = useSelector((store) => store.bottomText);
-	// const updateLink = (link) => dispatch({ type: "LINK", payload: link });
-	// const updateTopText = (topText) =>
-	// 	dispatch({ type: "TOP_TEXT", payload: topText });
-	// const updateBottomText = (bottomText) =>
-	// 	dispatch({ type: "BOTTOM_TEXT", payload: bottomText });
-
+const Meme = ({ id, link, topText, bottomText, deleteMeme }) => {
 	return (
-		<div>
-			<h1>Meme Generator</h1>
-			<MemeForm />
-		</div>
+		<>
+			<div id={id} className="card">
+				<span className="top-text">{topText}</span>
+				<img src={link} alt="img" />
+				<span className="bottom-text">{bottomText}</span>
+			</div>
+			<button onClick={deleteMeme}>Delete Meme</button>
+		</>
 	);
 };
 

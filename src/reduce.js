@@ -1,14 +1,25 @@
-const INITIAL_STATE = { link: "", topText: "", bottomText: "" };
+const INITIAL_STATE = { memes: [] };
+
+export function addMeme(meme) {
+	return {
+		type: "CREATE",
+		meme: meme,
+	};
+}
+
 function reduceFunction(state = INITIAL_STATE, action) {
-	switch (action.state) {
-		case "LINK":
-			return { ...state, link: action.payload };
-		case "TOP_TEXT":
-			return { ...state, topText: action.payload };
-		case "BOTTOM_TEXT":
-			return { ...state, bottomText: action.payload };
-		case "SUBMIT":
-			return { ...state };
+	switch (action.type) {
+		case "CREATE":
+			console.log("IN HERE");
+			return {
+				...state,
+				memes: [...state.memes, { ...action.meme }],
+			};
+		case "DELETE":
+			return {
+				...state,
+				memes: state.memes.filter((meme) => meme.id !== action.id),
+			};
 		default:
 			return state;
 	}

@@ -1,52 +1,54 @@
-import { useSelector, useDispatch } from "react-redux";
-import { useFormik } from "formik";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+import { addMeme } from "./reduce";
 
-// const validate = (values) => {
-// 	const errors = {};
-// 	if (!values.imageLink) {
-// 		errors.imageLink = "Image Link Field Required";
-// 	}
-// 	if (!values.topText) {
-// 		errors.topText = "Top Text Field Required";
-// 	}
-// 	if (!values.bottomText) {
-// 		errors.bottomText = "Bottom Text Field Required";
-// 	}
-// 	return errors;
-// };
 const MemeForm = () => {
+	const DEFAULT_VALUES = { link: "", topText: "", bottomText: "" };
+
+	const [formData, setFormData] = useState(DEFAULT_VALUES);
+
 	const dispatch = useDispatch();
-	const link = useSelector((store) => store.link);
-	const topText = useSelector((store) => store.topText);
-	const bottomText = useSelector((store) => store.bottomText);
-	const updateLink = (link) => dispatch({ type: "LINK", payload: link });
-	const updateTopText = (topText) =>
-		dispatch({ type: "TOP_TEXT", payload: topText });
-	const updateBottomText = (bottomText) =>
-		dispatch({ type: "BOTTOM_TEXT", payload: bottomText });
-	const submit = (e) => {
-		e.preventDefault();
-		dispatch({ type: "SUBMIT" });
+
+	const handleChange = (evt) => {
+		const { name, value } = evt.target;
+		setFormData((fData) => ({
+			...fData,
+			[name]: value,
+		}));
 	};
+
+	const submitData = (evt) => {
+		evt.preventDefault();
+		dispatch(addMeme({ ...formData, id: uuidv4() }));
+		setFormData(DEFAULT_VALUES);
+	};
+
 	return (
 		<div>
-			<form onSubmit={submit}>
+			<form onSubmit={submitData}>
 				<input
 					type="text"
+					name="link"
 					placeholder="Insert Image Link Here..."
-					onChange={(e) => updateLink(e.target.value)}
+					onChange={handleChange}
+					value={formData.link}
 				/>
 				<br />
 				<input
 					type="text"
+					name="topText"
 					placeholder="Insert Text here..."
-					onChange={(e) => updateTopText(e.target.value)}
+					onChange={handleChange}
+					value={formData.topText}
 				/>
 				<br />
 				<input
 					type="text"
+					name="bottomText"
 					placeholder="Insert Text Here..."
-					onChange={(e) => updateBottomText(e.target.value)}
+					onChange={handleChange}
+					value={formData.bottomText}
 				/>
 				<br />
 				<button type="submit">Create Your Meme</button>

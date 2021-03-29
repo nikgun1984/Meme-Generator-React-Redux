@@ -1,11 +1,14 @@
 import "./App.css";
-import Meme from "./Meme";
+import MemeForm from "./MemeForm";
+import Memes from "./Memes";
 
 function App() {
 	return (
 		<div className="App">
 			<header className="App-header">
-				<Meme />
+				<h1>Meme Generator</h1>
+				<MemeForm />
+				<Memes />
 			</header>
 		</div>
 	);
